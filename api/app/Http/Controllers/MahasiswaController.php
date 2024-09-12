@@ -13,7 +13,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $Mahasiswa = Mahasiswa::with('Mahasiswas')->get();
+        $Mahasiswa = Mahasiswa::with('prodi')->get();
         $data['message'] = true;
         $data['result'] = $Mahasiswa;
         return response()->json($data, HttpResponse::HTTP_OK);

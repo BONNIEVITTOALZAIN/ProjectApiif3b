@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 
@@ -63,16 +64,33 @@ class FakultasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fakultas $fakultas)
+    public function update(Request $request, $id)
     {
-        //
+        $validate = $request->validate([
+            'nama' => 'required',
+        ]);
+
+        Fakultas::where('id', $id)->update($validate);
+        $response['success'] = true;
+        $response['message'] = 'Fakultas berhasil diperbarui.';
+        return response()->json($response, HttpResponse::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fakultas $fakultas)
+    public function destroy($id)
     {
-        //
+        $fakultas = Fakultas::where('id', $id);
+        if(count($fakultas->get())){
+            $fakultas->delete();
+            $response['success'] = true;
+            $response['message'] = 'Fakultas berhasil dihapus.';
+            return response()->json($response, HttpResponse::HTTP_OK);
+        } else {
+            $response['success'] = false;
+            $response['message'] = 'Fakultas tidak ditemukan.';
+            return response()->json($response, HttpResponse::HTTP_NOT_FOUND);
+        }
     }
 }

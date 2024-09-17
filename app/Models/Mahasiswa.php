@@ -23,4 +23,6 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Prodi::class, 'prodi_id');
     }
+
+    
 }
